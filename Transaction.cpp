@@ -1,7 +1,6 @@
 #include "Transaction.h"
 #include <vector>
 
-
 Transaction::Transaction(Account* sac, Account* dac, int a
 	, std::vector<int> oids)
 	:src_account(sac)
