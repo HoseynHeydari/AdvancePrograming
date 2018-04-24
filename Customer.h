@@ -2,21 +2,19 @@
 #define Customer_h
 
 #include <string>
+#include <vector>
 #include <iostream>
-
-class Bank;
 
 class Customer
 {
-	Customer(Bank* bk, int id, std::string n, std::string sn);
-	print();
-	
-	Bank* bank;
+public:
+	Customer(int id, std::string n, std::string sn);
+	int getId();
+	void print();
+private:
 	int id;
 	std::string name;
 	std::string surname;
-
-	friend class Bank;
 };
 
 #endif

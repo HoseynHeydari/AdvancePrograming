@@ -1,37 +1,37 @@
 #include "Transaction.h"
 #include <vector>
-#include "Bank.h"
 
-Transaction::Transaction(Bank* bk, int said, int daid, int a)
-	:bank(bk)
-	 ,src_ac_id(said)
-	 ,des_ac_id(daid)
-	 ,amount(a)
-	 ,state(0)
+
+Transaction::Transaction(Account* sac, Account* dac, int a
+	, std::vector<int> oids)
+	:src_account(sac)
+	,des_account(dac)
+	,amount(a)
+	,owners(oids)
+	,request(Pending)
 {
-	bank->declareWaiters(said, wait_list_id);
 }
 
 void Transaction::approve_transaction()
 {
-	if (bank->isBallanceEnough(src_ac_id, amount))
+	if (src_account->isBallanceEnough(amount))
 	{
-		state = 1;
-		bank->setBalance(src_ac_id, -amount);
-		bank->setBalance(des_ac_id, amount);
+		request = Accepted;
+		src_account->addBalance(-amount);
+		des_account->addBalance(amount);
 	}
 	else
 	{
-		state = -1;
+		request = Rejected;
 	}
 }
 
-void Transaction::decline_transaction() { state = -1; }
+void Transaction::decline_transaction() { request = Rejected; }
 
 bool Transaction::is_approved()
 {
 	std::vector<int>::iterator it;
-	for (it = wait_list_id.begin(); it != wait_list_id.end(); ++it)
+	for (it = owners.begin(); it != owners.end(); ++it)
 	{
 		if (*it > -1)
 		{
@@ -43,7 +43,9 @@ bool Transaction::is_approved()
 
 void Transaction::approve_owner(int oid)
 {
-	wait_list_id[oid] = -1;
+	std::vector<int>::iterator it;
+	it = std::find(owners.begin(), owners.end(), oid);
+	*it = -1;
 	if (is_approved())
 	{
 		approve_transaction();
@@ -53,4 +55,30 @@ void Transaction::approve_owner(int oid)
 void Transaction::decline_owner(int oid)
 {
 	decline_transaction();
+}
+
+void Transaction::sets_account(Account* sap)
+{
+	src_account = sap;
+}
+
+void Transaction::setd_account(Account* dap)
+{
+	des_account = dap;
+}
+
+void Transaction::showTransaction()
+{
+	std::cout << amount << " to ";
+	std::cout << des_account->getId() << " -> ";
+	switch (request)
+	{
+		case Pending : std::cout << "Pending";
+			break;
+		case Accepted : std::cout << "Accepted";
+			break;
+		case Rejected : std::cout << "Rejected";
+			break;
+		default : std::cout << "Error happend";
+	}
 }

@@ -1,14 +1,18 @@
 #include "Customer.h"
 
-Customer::Customer(Bank* bk, int id, std::string n, std::string sn)
-	:bank(bk)
-	 ,id(id)
-	 ,name(n)
-	 ,surname(sn)
+Customer::Customer(int id, std::string n, std::string sn)
+	:id(id)
+	,name(n)
+	,surname(sn)
 {
 }
 
-Customer::print()
+int Customer::getId()
+{
+	return id;
+}
+
+void Customer::print()
 {
 	std::cout << " " << name << " " << surname;
 }

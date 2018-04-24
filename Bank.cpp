@@ -5,19 +5,39 @@ Bank::Bank(std::string name)
 {
 }
 
-void Bank::addCustomer(int cid, std::string n, std::string sn)
+void Bank::addCustomer(std::string n, std::string sn)
 {
-	customers.push_back(new Customer(this, cid, n, sn));
+	int index = customers.size();
+	customers.push_back(new Customer(index, n, sn));
+	std::cout << index << std::endl;
 }
 
-void Bank::addAccount(int aid, int bl, std::vector<int> oids)
+void Bank::addAccount(std::vector<int> oid, int bl)
 {
-	accuonts.push_back(new Account(this, aid, bl, oids));
+	int index = accuonts.size();
+	accuonts.push_back(new Account(index, bl));
+	int size = oid.size();
+	for (int i = 0; i < size; ++i)
+	{
+		accuonts[index]->addOwner(customers[oid[i]]);
+	}
+	std::cout << index << std::endl;
+}
+
+void Bank::addOwner(int aid, int cid)
+{
+	accuonts[aid]->addOwner(customers[cid]);
 }
 
 void Bank::addTransaction(int said, int daid, int a)
 {
-	transactions.push_back(new Transaction(this, said, daid, a));
+	int index = transactions.size();
+	std::vector<int> oids;
+	accuonts[said]->getOwnersId(oids);
+	transactions.push_back(new Transaction(accuonts[said]
+		, accuonts[daid], a, oids));
+	accuonts[said]->addTransaction(index);
+	std::cout << index << std::endl;
 }
 
 void Bank::approveTransaction(int tid, int oid)
@@ -32,27 +52,14 @@ void Bank::declineTransaction(int tid, int oid)
 
 void Bank::showAccount(int aid)
 {
-	std::cout << "Balance : " << accuonts[aid]->balance << std::endl;
-	std::cout << "Owners : " << customers[0].print();
-	int ownNum = customers.size();
-	for (int i = 1; i < ownNum; ++i)
+	accuonts[aid]->showBalance();
+	accuonts[aid]->showOwners();
+	std::vector<int> tids;
+	accuonts[aid]->getTransactionIds(tids);
+	for (int i = 0; i < tids.size(); ++i)
 	{
-		std::cout << " ,";
-		customers[i].size();
+		std::cout << "[" << i << "] ";
+		transactions[tids[i]]->showTransaction();
+		std::cout << std::endl;
 	}
-}
-
-void Bank::declareWaiters(int aid, std::vector<int> &wlid)
-{
-	accuonts[aid]->getOwnersId(wlid);
-}
-
-bool Bank::isBallanceEnough(int aid, int amount) 
-{
-	return (accuonts[aid]->balance > trade);
-}
-
-void Bank::setBalance(int aid, int am)
-{
-	accuonts[aid]->balance += am;
 }

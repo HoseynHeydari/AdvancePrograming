@@ -1,24 +1,28 @@
 #ifndef Account_h
 #define Account_h
 
-#include <vector>
-
-class Bank;
+#include "Customer.h"
 
 class Account
 {
-	Account(Bank *bk, int id, int bl, std::vector<int> cids);
+public:
+	Account(int id, int bl);
 	
+	void addOwner(Customer* owner);
+	void addBalance(int amount);
+	void addTransaction(int transactionId);
 	void getOwnersId(std::vector<int> &oid);
-	void addCustomer(int cid);
-	void setBalance(int bl);
-	
-	Bank *bank;
+	void getTransactionIds(std::vector<int> &tid);
+	void showBalance();
+	void showOwners();
+	bool isBallanceEnough(int amount);
+	int getId();
+
+private:
 	int id;
 	int balance;
-	std::vector<int> owners;
-	
-	friend class Bank;
+	std::vector<Customer*> owners;
+	std::vector<int> transactions;
 };
 
 #endif
