@@ -17,6 +17,8 @@ public:
 	void showOwners();
 	bool isBallanceEnough(int amount);
 	int getId();
+	int ownersNumber();
+	bool isExists(int oid);
 
 private:
 	int id;

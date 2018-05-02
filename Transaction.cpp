@@ -1,4 +1,4 @@
-#include "Transaction.h"
+#include "Transaction.hpp"
 #include <vector>
 
 Transaction::Transaction(Account* sac, Account* dac, int a
@@ -80,4 +80,21 @@ void Transaction::showTransaction()
 			break;
 		default : std::cout << "Error happend";
 	}
+}
+
+int Transaction::ownersNumber()
+{
+	return owners.size();
+}
+
+bool Transaction::isExists(int oid)
+{
+	for (int i = 0; i < owners.size(); ++i)
+	{
+		if (owners[i] == oid)
+		{
+			return true;
+		}
+	}
+	return false;
 }

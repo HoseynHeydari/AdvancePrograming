@@ -25,12 +25,15 @@ public:
 	void sets_account(Account* sap);
 	void setd_account(Account* dap);
 	void showTransaction();
+	int ownersNumber();
+	bool isExists(int oid);
 
 private:
 	Account* src_account;
 	Account* des_account;
 	int amount;
 	std::vector<int> owners;
+	// TODO: make vector map.
 	state request;
 	bool is_approved();
 };

@@ -15,6 +15,8 @@ public:
 	void approveTransaction(int tid, int oid);
 	void declineTransaction(int tid, int oid);
 	void showAccount(int aid);
+	bool searchCustomer(std::string s1, std::string s2
+		, std::vector<Customer*> customers);
 
 private:
 	std::string name;

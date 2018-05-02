@@ -1,4 +1,4 @@
-#include "Account.h"
+#include "Account.hpp"
 
 Account::Account(int id, int bl)
 	:id(id)
@@ -8,6 +8,7 @@ Account::Account(int id, int bl)
 
 void Account::addOwner(Customer* owner)
 {
+
 	owners.push_back(owner);
 }
 
@@ -63,4 +64,21 @@ bool Account::isBallanceEnough(int amount)
 int Account::getId()
 {
 	return id;
+}
+
+int Account::ownersNumber()
+{
+	return owners.size();
+}
+
+bool Account::isExists(int oid)
+{
+	for (int i = 0; i < owners.size(); ++i)
+	{
+		if (owners[i]->getId() == oid)
+		{
+			return true;
+		}
+	}
+	return false;
 }

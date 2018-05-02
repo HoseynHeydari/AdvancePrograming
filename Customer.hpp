@@ -12,7 +12,8 @@ public:
 
 	int getId();
 	void print();
-	
+	bool isEqual(std::string s1, std::string s2);
+
 private:
 	int id;
 	std::string name;
