@@ -1,7 +1,7 @@
 #ifndef Bank_h
 #define Bank_h
 
-#include "Transaction.h"
+#include "Transaction.hpp"
 
 class Bank
 {

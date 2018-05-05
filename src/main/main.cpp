@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Bank.h"
+#include "Bank.hpp"
 
 int main()
 {
